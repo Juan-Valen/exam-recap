@@ -1,17 +1,17 @@
 const Property = require("../models/propertyModel");
 const mongoose = require("mongoose");
 
-//GET / propertys;
+//GET / properties;
 const getAllPropertys = async (req, res) => {
   try {
-    const propertys = await Property.find({}).sort({ createdAt: -1 });
-    res.status(200).json(propertys);
+    const properties = await Property.find({}).sort({ createdAt: -1 });
+    res.status(200).json(properties);
   } catch (error) {
-    res.status(500).json({ message: "Failed to retrieve propertys" });
+    res.status(500).json({ message: "Failed to retrieve properties" });
   }
 };
 
-// POST /propertys
+// POST /properties
 const createProperty = async (req, res) => {
   try {
     const newProperty = await Property.create({ ...req.body });
@@ -23,7 +23,7 @@ const createProperty = async (req, res) => {
   }
 };
 
-// GET /propertys/:propertyId
+// GET /properties/:propertyId
 const getPropertyById = async (req, res) => {
   const { propertyId } = req.params;
 
@@ -43,7 +43,7 @@ const getPropertyById = async (req, res) => {
   }
 };
 
-// PUT /propertys/:propertyId
+// PUT /properties/:propertyId
 const updateProperty = async (req, res) => {
   const { propertyId } = req.params;
 
@@ -67,7 +67,7 @@ const updateProperty = async (req, res) => {
   }
 };
 
-// DELETE /propertys/:propertyId
+// DELETE /properties/:propertyId
 const deleteProperty = async (req, res) => {
   const { propertyId } = req.params;
 

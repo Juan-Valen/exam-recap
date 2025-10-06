@@ -12,8 +12,8 @@ app.use(express.json());
 
 connectDB();
 
-// Use the propertyRouter for all "/propertys" routes
-app.use("/api/propertys", propertyRouter);
+// Use the propertyRouter for all "/properties" routes
+app.use("/api/properties", propertyRouter);
 
 app.use(unknownEndpoint);
 app.use(errorHandler);
