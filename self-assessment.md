@@ -2,8 +2,8 @@
 Grade 50 out of 50.
 
 ## links
-- (No Auth branch)[https://github.com/Juan-Valen/exam-recap/tree/noAuth]
-- (Auth banch)[https://github.com/Juan-Valen/exam-recap/tree/juan/auth]
+- [No Auth branch](https://github.com/Juan-Valen/exam-recap/tree/noAuth)
+- [Auth banch](https://github.com/Juan-Valen/exam-recap/tree/juan/auth)
 ## Code no auth
 Overall the testing and endpoint work as they should.
 ## Code auth
