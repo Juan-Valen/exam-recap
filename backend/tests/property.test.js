@@ -4,7 +4,7 @@ const app = require("../app"); // Your Express app
 const api = supertest(app);
 const Property = require("../models/propertyModel");
 
-const propertys = [
+const properties = [
     {
         title: "Florida Condo",
         type: "Condo",
@@ -38,25 +38,25 @@ const propertys = [
 describe("Property Controller", () => {
     beforeEach(async () => {
         await Property.deleteMany({});
-        await Property.insertMany(propertys);
+        await Property.insertMany(properties);
     });
 
     afterAll(() => {
         mongoose.connection.close();
     });
 
-    // Test GET /api/propertys
-    it("should return all propertys as JSON when GET /api/propertys is called", async () => {
+    // Test GET /api/properties
+    it("should return all properties as JSON when GET /api/properties is called", async () => {
         const response = await api
-            .get("/api/propertys")
+            .get("/api/properties")
             .expect(200)
             .expect("Content-Type", /application\/json/);
 
-        expect(response.body).toHaveLength(propertys.length);
+        expect(response.body).toHaveLength(properties.length);
     });
 
-    // Test POST /api/propertys
-    it("should create a new property when POST /api/propertys is called", async () => {
+    // Test POST /api/properties
+    it("should create a new property when POST /api/properties is called", async () => {
         const newProperty = {
             title: "Miami Condo",
             type: "Condo",
@@ -73,33 +73,33 @@ describe("Property Controller", () => {
         };
 
         await api
-            .post("/api/propertys")
+            .post("/api/properties")
             .send(newProperty)
             .expect(201)
             .expect("Content-Type", /application\/json/);
 
-        const propertysAfterPost = await Property.find({});
-        expect(propertysAfterPost).toHaveLength(propertys.length + 1);
-        const propertyTitles = propertysAfterPost.map((property) => property.title);
+        const propertiesAfterPost = await Property.find({});
+        expect(propertiesAfterPost).toHaveLength(properties.length + 1);
+        const propertyTitles = propertiesAfterPost.map((property) => property.title);
         expect(propertyTitles).toContain(newProperty.title);
     });
 
-    // Test GET /api/propertys/:id
-    it("should return one property by ID when GET /api/propertys/:id is called", async () => {
+    // Test GET /api/properties/:id
+    it("should return one property by ID when GET /api/properties/:id is called", async () => {
         const property = await Property.findOne();
         await api
-            .get(`/api/propertys/${property._id}`)
+            .get(`/api/properties/${property._id}`)
             .expect(200)
             .expect("Content-Type", /application\/json/);
     });
 
     it("should return 404 for a non-existing property ID", async () => {
         const nonExistentId = new mongoose.Types.ObjectId();
-        await api.get(`/api/propertys/${nonExistentId}`).expect(404);
+        await api.get(`/api/properties/${nonExistentId}`).expect(404);
     });
 
-    // Test PUT /api/propertys/:id
-    it("should update one property with partial data when PUT /api/propertys/:id is called", async () => {
+    // Test PUT /api/properties/:id
+    it("should update one property with partial data when PUT /api/properties/:id is called", async () => {
         const property = await Property.findOne();
         const updatedProperty = {
             price: 8000,
@@ -107,7 +107,7 @@ describe("Property Controller", () => {
         };
 
         await api
-            .put(`/api/propertys/${property._id}`)
+            .put(`/api/properties/${property._id}`)
             .send(updatedProperty)
             .expect(200)
             .expect("Content-Type", /application\/json/);
@@ -117,22 +117,22 @@ describe("Property Controller", () => {
         expect(updatedPropertyCheck.type).toBe(updatedProperty.type);
     });
 
-    it("should return 400 for invalid property ID when PUT /api/propertys/:id", async () => {
+    it("should return 400 for invalid property ID when PUT /api/properties/:id", async () => {
         const invalidId = "12345";
-        await api.put(`/api/propertys/${invalidId}`).send({}).expect(400);
+        await api.put(`/api/properties/${invalidId}`).send({}).expect(400);
     });
 
-    // Test DELETE /api/propertys/:id
-    it("should delete one property by ID when DELETE /api/propertys/:id is called", async () => {
+    // Test DELETE /api/properties/:id
+    it("should delete one property by ID when DELETE /api/properties/:id is called", async () => {
         const property = await Property.findOne();
-        await api.delete(`/api/propertys/${property._id}`).expect(204);
+        await api.delete(`/api/properties/${property._id}`).expect(204);
 
         const deletedPropertyCheck = await Property.findById(property._id);
         expect(deletedPropertyCheck).toBeNull();
     });
 
-    it("should return 400 for invalid property ID when DELETE /api/propertys/:id", async () => {
+    it("should return 400 for invalid property ID when DELETE /api/properties/:id", async () => {
         const invalidId = "12345";
-        await api.delete(`/api/propertys/${invalidId}`).expect(400);
+        await api.delete(`/api/properties/${invalidId}`).expect(400);
     });
 });
